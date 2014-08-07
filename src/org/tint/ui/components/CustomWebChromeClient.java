@@ -36,11 +36,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions.Callback;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
+import com.mogoweb.chrome.JsPromptResult;
+import com.mogoweb.chrome.JsResult;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebChromeClient;
+import com.mogoweb.chrome.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -222,13 +222,13 @@ public class CustomWebChromeClient extends WebChromeClient {
 	}
 	
 	@Override
-	public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) {
+	public void onShowCustomView(View view, int requestedOrientation, android.webkit.WebChromeClient.CustomViewCallback callback) {
 		super.onShowCustomView(view, requestedOrientation, callback);
 		mUIManager.onShowCustomView(view, requestedOrientation, callback);
 	}
 	
 	@Override
-	public void onShowCustomView(View view, CustomViewCallback callback) {		
+	public void onShowCustomView(View view, android.webkit.WebChromeClient.CustomViewCallback callback) {		
 		super.onShowCustomView(view, callback);
 		mUIManager.onShowCustomView(view, -1, callback);
 	}

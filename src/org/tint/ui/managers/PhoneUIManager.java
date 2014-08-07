@@ -46,7 +46,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -347,7 +347,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				mPanel.postDelayed(new Runnable() {					
 					@Override
 					public void run() {
-						tabview.setImage(view.capturePicture());
+//						tabview.setImage(view.capturePicture());
 					}
 				}, 50);
 			}
@@ -602,7 +602,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				tabview.setTitle(webView.getTitle());
 				
 				tabview.setFavicon(webView.getFavicon());
-				tabview.setImage(webView.isLoading() ? null : webView.capturePicture());
+//				tabview.setImage(webView.isLoading() ? null : webView.capturePicture());
 			}
 			
 			tabview.setSelected(position == mCurrentTabIndex);

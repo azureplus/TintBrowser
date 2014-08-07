@@ -35,7 +35,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.view.ActionMode;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;

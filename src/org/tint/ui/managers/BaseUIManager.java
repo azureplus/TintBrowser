@@ -56,10 +56,10 @@ import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions.Callback;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 import android.webkit.WebViewDatabase;
 import android.webkit.WebChromeClient.CustomViewCallback;
-import android.webkit.WebView.HitTestResult;
+import com.mogoweb.chrome.WebView.HitTestResult;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -245,7 +245,7 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 		WebView webView = getCurrentWebView();
 		
 		if (webView != null) {
-			webView.showFindDialog(null, true);
+//			webView.showFindDialog(null, true);
 		}
 	}
 	
@@ -421,13 +421,13 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 			@Override
 			public void run() {
 				if (BookmarksWrapper.urlHasBookmark(mActivity.getContentResolver(), url, view.getOriginalUrl())) {
-					Picture p = view.capturePicture();
-					
-					new ThumbnailSaver(mActivity.getContentResolver(),
-							url,
-							view.getOriginalUrl(),
-							p,
-							ApplicationUtils.getBookmarksThumbnailsDimensions(mActivity)).execute();
+//					Picture p = view.capturePicture();
+//					
+//					new ThumbnailSaver(mActivity.getContentResolver(),
+//							url,
+//							view.getOriginalUrl(),
+//							p,
+//							ApplicationUtils.getBookmarksThumbnailsDimensions(mActivity)).execute();
 				}				
 			}
 		}, 2000);

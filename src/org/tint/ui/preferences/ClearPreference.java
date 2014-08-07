@@ -24,7 +24,7 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
-import android.webkit.WebViewDatabase;
+import com.mogoweb.chrome.WebViewDatabase;
 
 public class ClearPreference extends DialogPreference {
 

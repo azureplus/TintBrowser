@@ -43,7 +43,7 @@ import android.view.ActionMode;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 

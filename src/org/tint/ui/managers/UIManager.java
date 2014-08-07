@@ -29,7 +29,7 @@ import android.view.ActionMode;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.webkit.ValueCallback;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 import android.webkit.GeolocationPermissions.Callback;
 import android.webkit.WebChromeClient.CustomViewCallback;
 

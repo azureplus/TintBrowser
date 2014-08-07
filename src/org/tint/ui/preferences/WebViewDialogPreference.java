@@ -25,7 +25,7 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 
 public class WebViewDialogPreference extends DialogPreference {
 	

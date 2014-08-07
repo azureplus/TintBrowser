@@ -48,11 +48,11 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.DownloadListener;
-import android.webkit.WebSettings;
-import android.webkit.WebSettings.PluginState;
-import android.webkit.WebView;
+import com.mogoweb.chrome.CookieManager;
+import com.mogoweb.chrome.DownloadListener;
+import com.mogoweb.chrome.WebSettings;
+import com.mogoweb.chrome.WebSettings.PluginState;
+import com.mogoweb.chrome.WebView;
 import android.widget.Toast;
 
 public class CustomWebView extends WebView implements DownloadListener, DownloadConfirmDialog.IUserActionListener {
@@ -191,7 +191,7 @@ public class CustomWebView extends WebView implements DownloadListener, Download
 		}
 		
 		settings.setUserAgentString(prefs.getString(Constants.PREFERENCE_USER_AGENT, Constants.USER_AGENT_ANDROID));		
-		settings.setPluginState(PluginState.valueOf(prefs.getString(Constants.PREFERENCE_PLUGINS, PluginState.ON_DEMAND.toString())));
+//		settings.setPluginState(PluginState.valueOf(prefs.getString(Constants.PREFERENCE_PLUGINS, PluginState.ON_DEMAND.toString())));
 		
 		CookieManager.getInstance().setAcceptCookie(prefs.getBoolean(Constants.PREFERENCE_ACCEPT_COOKIES, true));
 		
@@ -393,17 +393,17 @@ public class CustomWebView extends WebView implements DownloadListener, Download
 	}
 	
 	private static void setWebSettingsProperty(WebSettings settings, String key, String value) {
-		if (sWebSettingsSetProperty != null) {
-			try {
-				sWebSettingsSetProperty.invoke(settings, key, value);
-			} catch (IllegalArgumentException e) {
-				Log.e("CustomWebView", "setWebSettingsProperty(): " + e.getMessage());
-			} catch (IllegalAccessException e) {
-				Log.e("CustomWebView", "setWebSettingsProperty(): " + e.getMessage());
-			} catch (InvocationTargetException e) {
-				Log.e("CustomWebView", "setWebSettingsProperty(): " + e.getMessage());
-			}
-		}
+//		if (sWebSettingsSetProperty != null) {
+//			try {
+//				sWebSettingsSetProperty.invoke(settings, key, value);
+//			} catch (IllegalArgumentException e) {
+//				Log.e("CustomWebView", "setWebSettingsProperty(): " + e.getMessage());
+//			} catch (IllegalAccessException e) {
+//				Log.e("CustomWebView", "setWebSettingsProperty(): " + e.getMessage());
+//			} catch (InvocationTargetException e) {
+//				Log.e("CustomWebView", "setWebSettingsProperty(): " + e.getMessage());
+//			}
+//		}
 	}
 
 }

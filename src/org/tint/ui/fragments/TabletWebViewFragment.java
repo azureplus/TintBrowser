@@ -20,7 +20,7 @@ import org.tint.ui.managers.UIManager;
 
 import android.app.ActionBar.Tab;
 import android.text.TextUtils;
-import android.webkit.WebView;
+import com.mogoweb.chrome.WebView;
 
 public class TabletWebViewFragment extends PhoneWebViewFragment {
 	
