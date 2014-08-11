@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip"
             android:contentDescription="@string/ContentDescriptionApplicationIcon"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/mogo" />
 
         <LinearLayout
             android:layout_width="match_parent"
