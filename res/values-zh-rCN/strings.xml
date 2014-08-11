@@ -20,8 +20,8 @@
 
 	<string name="OK">确定</string>
 	<string name="Cancel">取消</string>
-	<string name="Yes">Yes</string>
-	<string name="No">No</string>
+	<string name="Yes">是</string>
+	<string name="No">否</string>
 	<string name="On">打开</string>
 	<string name="Off">关闭</string>
 	<string name="Clear">清空</string>
@@ -266,7 +266,7 @@
 	    <item>@string/PreferenceUserAgentOther</item>
 	</string-array>
 
-	<string name="SearchUrlGoogle">http://www.google.com/m?q={searchTerms}</string>
+	<string name="SearchUrlGoogle">http://www.baidu.com/s?wd={searchTerms}</string>
 
 	<string name="PreferenceHeaderAddonsTitle">附加组件</string>
 
@@ -379,21 +379,21 @@
 	<string name="ContentDescriptionWebsiteSettingsFeature">网站特色</string>
 
 	<string-array name="DefaultBookmarksTitles">
-	    <item>Google</item>
-	    <item>Wikipedia</item>
-	    <item>YouTube</item>
-	    <item>Yahoo!</item>
-	    <item>BBC</item>
-	    <item>eBay</item>
+	    <item>新浪</item>
+	    <item>搜狐</item>
+	    <item>网易</item>
+	    <item>优酷</item>
+	    <item>淘宝</item>
+	    <item>京东</item>
 	</string-array>
 
 	<string-array name="DefaultBookmarksUrls">
-	    <item>http://www.google.com/</item>
-	    <item>http://en.wikipedia.org/</item>
-	    <item>http://www.youtube.com/</item>
-	    <item>http://www.yahoo.com/</item>
-	    <item>http://www.bbc.co.uk/</item>
-	    <item>http://www.ebay.com/</item>
+	    <item>http://www.sina.com.cn/</item>
+	    <item>http://www.souhu.com/</item>
+	    <item>http://www.163.com/</item>
+	    <item>http://www.youku.com/</item>
+	    <item>http://www.taobao.com/</item>
+	    <item>http://www.jd.com/</item>
 	</string-array>
 
 	<!-- 1.2 -->
@@ -470,7 +470,7 @@
 	<string name="SearchUrlParsing">正在解析结果&#8230;</string>
 	<string name="SearchUrlBadResponseCodeMessage">无法连接搜索引擎库 (返回代码: %s)。</string>
 
-	<string name="SearchUrlDefault">Google Worldwide</string>
+	<string name="SearchUrlDefault">百度</string>
 	<string name="SearchUrlCustom">自定义搜索引擎</string>
 
 	<string name="SortBookmarks">排列书签</string>
