@@ -1,6 +1,7 @@
 /*
  * Tint Browser for Android
- * 
+ *
+ * Copyright (C) 2014 mogoweb.
  * Copyright (C) 2012 - to infinity and beyond J. Devauchelle and contributors.
  *
  * This program is free software; you can redistribute it and/or
@@ -32,50 +33,50 @@ import com.mogoweb.chrome.WebView;
 import android.widget.TextView;
 
 public class AccessibilityPreviewPreference extends Preference implements OnSharedPreferenceChangeListener {
-	
+
 	private static final String HTML_FORMAT = "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><style type=\"text/css\">p { margin: 2px auto;}</style><body><p style=\"font-size: 4pt\">%s</p><p style=\"font-size: 8pt\">%s</p><p style=\"font-size: 10pt\">%s</p><p style=\"font-size: 14pt\">%s</p><p style=\"font-size: 18pt\">%s</p></body></html>";
 
 	private WebView mWebView;
 
 	private String mHtml;
-	
+
 	public AccessibilityPreviewPreference(Context context) {
 		super(context);
 		init();
 	}
-	
+
 	public AccessibilityPreviewPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
-	
+
 	public AccessibilityPreviewPreference(Context context, AttributeSet attrs,	int defStyle) {
 		super(context, attrs, defStyle);
 		init();
 	}
-	
+
 	private void init() {
 		setLayoutResource(R.layout.accessibility_preview);
-		
+
 		Object[] visualNames = getContext().getResources().getStringArray(R.array.FontPreviewText);
-		
+
         mHtml = String.format(HTML_FORMAT, visualNames);
 	}
-	
+
 	@Override
     protected View onCreateView(ViewGroup parent) {
         View root = super.onCreateView(parent);
-        
+
         TextView title = (TextView) root.findViewById(R.id.AccessibilityPreviewTitle);
         title.setText(getTitle());
-        
+
         TextView summary = (TextView) root.findViewById(R.id.AccessibilityPreviewSummary);
         if (!TextUtils.isEmpty(getSummary())) {
         	summary.setText(getSummary());
         } else {
         	summary.setVisibility(View.GONE);
         }
-        
+
         WebView wv = (WebView) root.findViewById(R.id.AccessibilityPreviewWebView);
         wv.setFocusable(false);
         wv.setFocusableInTouchMode(false);
@@ -84,16 +85,16 @@ public class AccessibilityPreviewPreference extends Preference implements OnShar
         wv.setHorizontalScrollBarEnabled(false);
         wv.setVerticalScrollBarEnabled(false);
         //wv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        
+
         return root;
 	}
-	
+
 	@Override
     protected void onBindView(View view) {
 		super.onBindView(view);
 		mWebView = (WebView) view.findViewById(R.id.AccessibilityPreviewWebView);
 		updatePreview();
-	}	
+	}
 
 	@Override
     protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
@@ -106,29 +107,28 @@ public class AccessibilityPreviewPreference extends Preference implements OnShar
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onPrepareForRemoval();
     }
-	
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (Constants.PREFERENCE_MINIMUM_FONT_SIZE.equals(key) ||
-				Constants.PREFERENCE_TEXT_SCALING.equals(key) ||
-				Constants.PREFERENCE_INVERTED_DISPLAY.equals(key)) {
+				Constants.PREFERENCE_TEXT_SCALING.equals(key)) {
 			updatePreview();
 		}
 	}
-	
+
 	private void updatePreview() {
         if (mWebView == null) return;
 
         WebSettings ws = mWebView.getSettings();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        
+
         int fontSize = prefs.getInt(Constants.PREFERENCE_MINIMUM_FONT_SIZE, 1);
         int textScaling = prefs.getInt(Constants.PREFERENCE_TEXT_SCALING, 100);
-        		
+
         ws.setMinimumFontSize(fontSize);
         ws.setTextZoom(textScaling);
-        
+
         mWebView.loadData(mHtml, "text/html; charset=utf-8", "utf-8");
     }
 
