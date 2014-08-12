@@ -27,6 +27,11 @@
 </head>
 <body>
 	<ul class="header">
+	    <li>Version 2.0
+            <ul class="details">
+                <li>using chromium webview as web engine.</li>
+            </ul>
+        </li>
 		<li>Version 1.8
 			<ul class="details">
 				<li>Fix file select dialog not opening.</li>

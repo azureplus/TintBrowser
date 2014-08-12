@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 	<meta charset="utf-8">
 	<style>
@@ -28,44 +28,44 @@
 <body>
 	<ul class="header">
 	    <li>alex
-            <ul class="details">
-                <li>porting to chromium WebView.</li>
-                <li>better chinese support.</li>
-            </ul>
-        </li>
+	        <ul class="details">
+	            <li>移植到chromium WebView.</li>
+	            <li>完善对中文的支持.</li>
+	        </ul>
+	    </li>
 		<li>Dorian 'gravgun' Wouters
 			<ul class="details">
-				<li>Features &amp; fixes.</li>
+				<li>新特性实现和错误修复.</li>
 			</ul>
 		</li>
 		<li>Rui
 			<ul class="details">
-				<li>Portuguese translation.</li>
+				<li>葡萄牙语翻译.</li>
 			</ul>
 		</li>
 		<li>Lars-Dominik
 			<ul class="details">
-				<li>German translation.</li>
+				<li>德语翻译.</li>
 			</ul>
 		</li>
 		<li>Anton
 			<ul class="details">
-				<li>Russian translation.</li>
+				<li>俄语翻译.</li>
 			</ul>
 		</li>
 		<li>Xphnx
 			<ul class="details">
-				<li>Spanish translation.</li>
+				<li>西班牙语翻译.</li>
 			</ul>
 		</li>
 		<li>Pikatenor
 			<ul class="details">
-				<li>Japanese translation.</li>
+				<li>日语翻译.</li>
 			</ul>
 		</li>
 		<li>JingYunLiu
 			<ul class="details">
-				<li>Simplified Chinese translation.</li>
+				<li>简体中文翻译.</li>
 			</ul>
 		</li>
 	</ul>

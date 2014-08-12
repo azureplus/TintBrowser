@@ -233,6 +233,10 @@
 	<string name="PreferencePrivacyWebsitesSettingsTitle">网站设置</string>
 	<string name="PreferencePrivacyWebsitesSettingsSummary">针对个别网站的高级设置。</string>
 
+	<string name="PreferencePrivacyIncognitoTitle">隐身模式</string>
+    <string name="PreferencePrivacyIncognitoDefaultTitle">默认隐身</string>
+    <string name="PreferencePrivacyIncognitoDefaultSummary">以隐身模式打开新的标签页</string>
+
 	<string name="HistoryToday">今天</string>
 	<string name="HistoryYesterday">昨天</string>
 	<string name="HistoryLastSevenDays">过去7天</string>
@@ -547,4 +551,11 @@
 	    <item>TABLET</item>
 	</string-array>
 
+    <!-- 1.8 -->
+    <string name="PreferenceDevelopersTitle">开发者选项</string>
+    
+    <string name="PreferenceJsLogOnLocatTitle">输出JS日志至logcat</string>
+    <string name="PreferenceJsLogOnLocatSummary">重定向javascript日志至logcat缓冲区.</string>
+    
+    <string name="ContextMenuViewImageInNewTab">在新的标签页中查看图片</string>
 </resources>
