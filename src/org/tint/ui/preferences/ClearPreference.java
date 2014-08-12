@@ -22,7 +22,7 @@ import org.tint.utils.Constants;
 import android.content.Context;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.webkit.CookieManager;
+import com.mogoweb.chrome.CookieManager;
 import android.webkit.GeolocationPermissions;
 import com.mogoweb.chrome.WebViewDatabase;
 
