@@ -40,6 +40,6 @@
 	<li>点击关闭图标关闭标签页，您也可以向左或向右横扫关闭标签页.</li>
 	</ul>
 	<img src="close_tab.png" />
-	<p class="details">If you miss the previous user interface for phones, you can still enable it through preferences.</p>
+	<p class="details">您还可以在设置中选择您所喜爱的界面风格.</p>
 </body>
 </html>

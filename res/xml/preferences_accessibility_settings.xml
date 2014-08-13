@@ -18,14 +18,14 @@
 
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/org.tint" >
+    xmlns:app="http://schemas.android.com/apk/res/com.mogoweb" >
 
     <PreferenceCategory android:title="@string/PreferenceCategoryTextSizeTitle">
 
-        <org.tint.ui.preferences.AccessibilityPreviewPreference
+        <com.mogoweb.ui.preferences.AccessibilityPreviewPreference
             android:title="@string/PreferenceAccessibilityTextSizePreviewTitle" />
 
-        <org.tint.ui.preferences.SeekBarPreference
+        <com.mogoweb.ui.preferences.SeekBarPreference
             android:title="@string/PreferenceAccessibilityTextScalingTitle"
             android:defaultValue="100"
             app:minValue="50"
@@ -34,7 +34,7 @@
             app:stepValue="5"
             android:key="PREFERENCE_TEXT_SCALING" />
 
-        <org.tint.ui.preferences.SeekBarPreference
+        <com.mogoweb.ui.preferences.SeekBarPreference
             android:title="@string/PreferenceAccessibilityMinimumFontSizeTitle"
             android:summary="@string/PreferenceAccessibilityMinimumFontSizeSummary"
             android:defaultValue="1"
