@@ -1,6 +1,6 @@
 /*
  * Tint Browser for Android
- * 
+ *
  * Copyright (C) 2012 - to infinity and beyond J. Devauchelle and contributors.
  *
  * This program is free software; you can redistribute it and/or
@@ -55,63 +55,63 @@ import android.widget.RelativeLayout;
 public class PhoneUIManager extends BasePhoneUIManager {
 
 	private PanelLayout mPanel;
-	
+
 	private BadgedImageView mFaviconView;
-	
+
 	private ImageView mHome;
-	
-	private ImageView mExitFullScreen;	
-	
+
+	private ImageView mExitFullScreen;
+
 	private TabAdapter mAdapter;
-	
+
 	private SharedPreferences mPreferences;
 
 	static {
 		sAnimationType = AnimationType.NONE;
 	}
-	
+
 	public PhoneUIManager(TintBrowserActivity activity) {
-		super(activity);		
-		
+		super(activity);
+
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		
+
 		mAdapter = new TabAdapter();
         mPanel.getTabsScroller().setAdapter(mAdapter);
 	}
-	
+
 	@Override
 	protected void setupUI() {
-		mActionBar.hide();		
-		
+		mActionBar.hide();
+
 		mPanel = (PanelLayout) mActivity.findViewById(R.id.panel_layout);
-		
+
 		mPanel.setPanelEventsListener(new PanelEventsListener() {
-			
+
 			@Override
 			public void onPanelShown() {
 				mPanel.getTabsScroller().snapToSelected(mCurrentTabIndex, true);
 			}
-			
+
 			@Override
 			public void onPanelHidden() { }
 		});
-		
+
 		mExitFullScreen = (ImageView) mActivity.findViewById(R.id.ExitFullScreen);
 		mExitFullScreen.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				toggleFullScreen();
 			}
 		});
-		
+
 		ImageView openTabView = (ImageView) mActivity.findViewById(R.id.BtnAddTab);
-		openTabView.setOnClickListener(new OnClickListener() {			
+		openTabView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				addTab(true, PreferenceManager.getDefaultSharedPreferences(v.getContext()).
 						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
-				
+
 				if (mPreferences.getBoolean(Constants.PREFERENCE_CLOSE_PANEL_ON_NEW_TAB, true)) {
 					mPanel.hidePanel();
 				} else {
@@ -127,43 +127,43 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				}
 			}
 		});
-		
+
 		ImageView openBookmarksView = (ImageView) mActivity.findViewById(R.id.BtnBookmarks);
-		openBookmarksView.setOnClickListener(new OnClickListener() {			
+		openBookmarksView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				openBookmarksActivityForResult();
 			}
 		});
-		
+
 		mProgressBar = (ProgressBar) mActivity.findViewById(R.id.WebViewProgress);
 		mProgressBar.setIndeterminate(false);
 		mProgressBar.setMax(100);
 		mProgressBar.setVisibility(View.GONE);
-		
-		mUrlBar = (PhoneUrlBar) mActivity.findViewById(R.id.UrlBar);		
-		
+
+		mUrlBar = (PhoneUrlBar) mActivity.findViewById(R.id.UrlBar);
+
 		mUrlBar.setEventListener(new OnPhoneUrlBarEventListener() {
-			
+
 			@Override
 			public void onVisibilityChanged(boolean urlBarVisible) {
 				if (urlBarVisible) {
 					mUrlBar.showGoStopReloadButton();
 				} else {
 					BaseWebViewFragment currentFragment = getCurrentWebViewFragment();
-					
+
 					if ((currentFragment != null) &&
 							(currentFragment.isStartPageShown())){
 						mUrlBar.hideGoStopReloadButton();
 					}
 				}
 			}
-			
+
 			@Override
 			public void onUrlValidated() {
 				loadCurrentUrl();
 			}
-			
+
 			@Override
 			public void onGoStopReloadClicked() {
 				if (mUrlBar.isUrlChangedByUser()) {
@@ -178,15 +178,15 @@ public class PhoneUIManager extends BasePhoneUIManager {
 
 			@Override
 			public void onMenuVisibilityChanged(boolean isVisible) {
-				mMenuVisible = isVisible;				
+				mMenuVisible = isVisible;
 			}
 		});
-        
+
         mUrlBar.setTitle(R.string.ApplicationName);
         mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
-		
+
         mFaviconView = (BadgedImageView) mActivity.findViewById(R.id.FaviconView);
-        mFaviconView.setOnClickListener(new OnClickListener() {			
+        mFaviconView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mUrlBar.isUrlBarVisible()) {
@@ -196,17 +196,17 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				}
 			}
 		});
-        
+
 		mTopBar = (RelativeLayout) mActivity.findViewById(R.id.TopBar);
 		mTopBar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Steal event from WebView.				
+				// Steal event from WebView.
 			}
 		});
-		
+
 		mBack = (ImageView) mActivity.findViewById(R.id.BtnBack);
-        mBack.setOnClickListener(new OnClickListener() {			
+        mBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if ((!getCurrentWebViewFragment().isStartPageShown()) &&
@@ -217,9 +217,9 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			}
 		});
         mBack.setEnabled(false);
-        
+
         mForward = (ImageView) mActivity.findViewById(R.id.BtnForward);
-        mForward.setOnClickListener(new OnClickListener() {			
+        mForward.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if ((!getCurrentWebViewFragment().isStartPageShown()) &&
@@ -230,9 +230,9 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			}
 		});
         mForward.setEnabled(false);
-        
+
         mHome = (ImageView) mActivity.findViewById(R.id.BtnHome);
-        mHome.setOnClickListener(new OnClickListener() {			
+        mHome.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mProgressBar.setProgress(0);
@@ -241,9 +241,9 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				mPanel.hidePanel();
 			}
 		});
-        
+
         mPanel.getTabsScroller().setOnRemoveListener(new OnRemoveListener() {
-			
+
 			@Override
 			public void onRemovePosition(int position) {
 				if (mFragmentsList.size() > 1) {
@@ -253,7 +253,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				}
 			}
 		});
-        
+
         super.setupUI();
 	}
 
@@ -261,17 +261,17 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
 		super.addTab(url, openInBackground, privateBrowsing);
 
-		updateUrlBar();		
+		updateUrlBar();
 		mAdapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	protected void closeLastTab() {
 		super.closeLastTab();
-				
+
 		mAdapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	protected void closeTabByIndex(int index) {
 		super.closeTabByIndex(index);
@@ -279,33 +279,33 @@ public class PhoneUIManager extends BasePhoneUIManager {
 		updateUrlBar();
 		mAdapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	protected void showCurrentTab(boolean notifyTabSwitched) {
 		super.showCurrentTab(notifyTabSwitched);
-		
+
 		TabView currentTabView = mAdapter.getViewAt(mCurrentTabIndex);
 		if (currentTabView != null) {
 			currentTabView.setSelected(true);
 		}
 	}
-	
+
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
 		if (view == getCurrentWebView()) {
 			mProgressBar.setProgress(0);
-			mProgressBar.setVisibility(View.VISIBLE);			
-			
+			mProgressBar.setVisibility(View.VISIBLE);
+
 			mUrlBar.setUrl(url);
-			
+
 			mUrlBar.setGoStopReloadImage(R.drawable.ic_stop);
-			
+
 			updateBackForwardEnabled();
 		}
-		
+
 		CustomWebView webview = (CustomWebView) view;
 		PhoneWebViewFragment parent = (PhoneWebViewFragment) webview.getParentFragment();
-		
+
 		if (parent != null) {
 			int index = mFragmentsList.indexOf(parent);
 			if (index != -1) {
@@ -314,19 +314,19 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		super.onPageFinished(view, url);
-		
+
 		if (view == getCurrentWebView()) {
 			mProgressBar.setProgress(100);
-			mProgressBar.setVisibility(View.GONE);			
-						
+			mProgressBar.setVisibility(View.GONE);
+
 			mUrlBar.setUrl(url);
-			
+
 			mUrlBar.setGoStopReloadImage(R.drawable.ic_refresh);
-			
+
 			updateBackForwardEnabled();
 		}
 	}
@@ -334,20 +334,20 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	@Override
 	public void onClientPageFinished(final CustomWebView view, String url) {
 		super.onClientPageFinished(view, url);
-	
+
 		PhoneWebViewFragment parent = (PhoneWebViewFragment) view.getParentFragment();
-		
+
 		if ((parent != null) &&
 				(!parent.isStartPageShown()) &&
 				(!view.isLoading())) {
 			int index = mFragmentsList.indexOf(parent);
 			if (index != -1) {
 				final TabView tabview = mAdapter.getViewAt(index);
-				
-				mPanel.postDelayed(new Runnable() {					
+
+				mPanel.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-//						tabview.setImage(view.capturePicture());
+						tabview.setImage(view.capturePicture());
 					}
 				}, 50);
 			}
@@ -357,7 +357,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	@Override
 	public void onReceivedTitle(WebView view, String title) {
 		super.onReceivedTitle(view, title);
-		
+
 		mAdapter.notifyDataSetChanged();
 	}
 
@@ -366,7 +366,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 		// Don't call parent here, we don't need the parent behavior.
 		CustomWebView webview = (CustomWebView) view;
 		PhoneWebViewFragment parent = (PhoneWebViewFragment) webview.getParentFragment();
-		
+
 		if ((parent != null) &&
 				(!parent.isStartPageShown())) {
 			int index = mFragmentsList.indexOf(parent);
@@ -382,14 +382,14 @@ public class PhoneUIManager extends BasePhoneUIManager {
 		if (!super.onKeyBack()) {
 			if (mUrlBar.isUrlBarVisible()) {
 				mUrlBar.hideUrl();
-				
+
 				return true;
 			} else if (mPanel.isPanelShown()) {
 				mPanel.hidePanel();
 				return true;
 			} else {
 				CustomWebView currentWebView = getCurrentWebView();
-				
+
 				if ((currentWebView != null) &&
 						(currentWebView.canGoBack())) {
 					currentWebView.goBack();
@@ -401,10 +401,10 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public boolean onKeySearch() {
 		mUrlBar.showUrl();
@@ -417,7 +417,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	@Override
 	public void onShowStartPage() {
 		super.onShowStartPage();
-		
+
 		mAdapter.notifyDataSetChanged();
 	}
 
@@ -430,12 +430,12 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	public void onActionModeFinished(ActionMode mode) {
 		if (mActionMode != null) {
 			mActionMode = null;
-		
+
 			InputMethodManager mgr = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 			mgr.hideSoftInputFromWindow(null, 0);
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if ((requestCode == TintBrowserActivity.ACTIVITY_BOOKMARKS) &&
@@ -454,11 +454,11 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	@Override
 	protected void setFullScreenFromPreferences() {
 		boolean fullScreen = isFullScreen();
-		
+
 		Window win = mActivity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
 		final int bits = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-		
+
 		if (fullScreen) {
 			winParams.flags |=  bits;
 			mTopBar.setVisibility(View.GONE);
@@ -468,7 +468,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			mTopBar.setVisibility(View.VISIBLE);
 			mExitFullScreen.setVisibility(View.GONE);
 		}
-		
+
 		win.setAttributes(winParams);
 	}
 
@@ -476,14 +476,14 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	protected void updateUrlBar() {
 		CustomWebView currentWebView;
 		BaseWebViewFragment currentFragment = getCurrentWebViewFragment();
-		
+
 		if ((currentFragment != null) &&
 				(currentFragment.isStartPageShown())) {
 			currentWebView = null;
 		} else {
 			currentWebView = getCurrentWebView();
 		}
-		
+
 		if (currentWebView != null) {
 			String title = currentWebView.getTitle();
 			String url = currentWebView.getUrl();
@@ -497,16 +497,16 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			}
 
 			if ((url != null) &&
-					(!url.isEmpty())) {				
+					(!url.isEmpty())) {
 				mUrlBar.setSubtitle(url);
 				mUrlBar.setUrl(url);
 			} else {
 				mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 				mUrlBar.setUrl(null);
 			}
-			
+
 			setApplicationButtonImage(icon);
-			
+
 			if (currentWebView.isLoading()) {
 				mProgressBar.setProgress(currentWebView.getProgress());
 				mProgressBar.setVisibility(View.VISIBLE);
@@ -515,52 +515,52 @@ public class PhoneUIManager extends BasePhoneUIManager {
 				mProgressBar.setVisibility(View.GONE);
 				mUrlBar.setGoStopReloadImage(R.drawable.ic_refresh);
 			}
-			
+
 			updateBackForwardEnabled();
 		} else {
 			mUrlBar.setTitle(R.string.ApplicationName);
 			mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 
 			mProgressBar.setVisibility(View.GONE);
-						
+
 			mUrlBar.setUrl(null);
 			mBack.setEnabled(false);
 			mForward.setEnabled(false);
 		}
-		
+
 		mFaviconView.setValue(mFragmentsList.size());
-		
+
 		mUrlBar.setPrivateBrowsingIndicator(currentFragment != null ? currentFragment.isPrivateBrowsingEnabled() : false);
 	}
 
 	@Override
 	protected void createStartPageFragment() {
 		mStartPageFragment = new PhoneStartPageFragment();
-		mStartPageFragment.setOnStartPageItemClickedListener(new OnStartPageItemClickedListener() {					
+		mStartPageFragment.setOnStartPageItemClickedListener(new OnStartPageItemClickedListener() {
 			@Override
 			public void onStartPageItemClicked(String url) {
 				loadUrl(url);
 			}
 		});
 	}
-	
+
 	private void showTabByIndex(int index, boolean notifyTabSwitched) {
 		PhoneWebViewFragment oldFragment = mFragmentsList.get(mCurrentTabIndex);
 		oldFragment.getWebView().onPause();
-		
+
 		TabView oldTabView = mAdapter.getViewAt(mCurrentTabIndex);
 		if (oldTabView != null) {
 			oldTabView.setSelected(false);
 		}
-		
+
 		mCurrentTabIndex = index;
 		showCurrentTab(notifyTabSwitched);
 	}
-	
+
 	private class TabAdapter extends BaseAdapter {
-		
+
 		private SparseArray<TabView> mViews;
-		
+
 		public TabAdapter() {
 			super();
 			mViews = new SparseArray<TabView>();
@@ -577,7 +577,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 		}
 
 		@Override
-		public long getItemId(int position) {			
+		public long getItemId(int position) {
 			return position;
 		}
 
@@ -590,25 +590,25 @@ public class PhoneUIManager extends BasePhoneUIManager {
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			final TabView tabview = new TabView(mActivity);
-			
+
 			PhoneWebViewFragment fragment = getItem(position);
-			
+
 			if (fragment.isStartPageShown()) {
 				tabview.setTitle(R.string.StartPageLabel);
 				tabview.setFavicon(null);
 			} else {
 				CustomWebView webView = fragment.getWebView();
-				
+
 				tabview.setTitle(webView.getTitle());
-				
+
 				tabview.setFavicon(webView.getFavicon());
-//				tabview.setImage(webView.isLoading() ? null : webView.capturePicture());
+				tabview.setImage(webView.isLoading() ? null : webView.capturePicture());
 			}
-			
+
 			tabview.setSelected(position == mCurrentTabIndex);
-			
+
 			tabview.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					if (tabview.isClose(v)) {
@@ -619,16 +619,16 @@ public class PhoneUIManager extends BasePhoneUIManager {
 					}
 				}
 			});
-			
+
 			mViews.put(position, tabview);
-			
+
 			return tabview;
 		}
-		
+
 		public TabView getViewAt(int position) {
 			return mViews.get(position);
 		}
-		
+
 	}
 
 }
