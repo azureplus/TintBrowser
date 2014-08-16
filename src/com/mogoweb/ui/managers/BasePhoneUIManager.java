@@ -1,6 +1,6 @@
 /*
  * Tint Browser for Android
- * 
+ *
  * Copyright (C) 2012 - to infinity and beyond J. Devauchelle and contributors.
  *
  * This program is free software; you can redistribute it and/or
@@ -46,33 +46,33 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 		NONE,
 		FADE
 	}
-	
+
 	protected static AnimationType sAnimationType;
-	
+
 	protected List<PhoneWebViewFragment> mFragmentsList;
 	protected Map<UUID, PhoneWebViewFragment> mFragmentsMap;
-	
+
 	protected PhoneUrlBar mUrlBar;
-	
+
 	protected ProgressBar mProgressBar;
-	
+
 	protected RelativeLayout mTopBar;
-	
+
 	protected ImageView mBack;
 	protected ImageView mForward;
-	
+
 	protected int mCurrentTabIndex = -1;
 	protected Fragment mCurrentFragment = null;
-	
+
 	protected ActionMode mActionMode;
-	
+
 	public BasePhoneUIManager(TintBrowserActivity activity) {
 		super(activity);
-		
+
 		mFragmentsList = new ArrayList<PhoneWebViewFragment>();
 		mFragmentsMap = new HashMap<UUID, PhoneWebViewFragment>();
 	}
-	
+
 	@Override
 	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
 		boolean startPage = false;
@@ -80,30 +80,30 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 			url = null;
 			startPage = true;
 		}
-		
+
 		PhoneWebViewFragment fragment = new PhoneWebViewFragment();
-		fragment.init(this, privateBrowsing, url);		
-		
+		fragment.init(this, privateBrowsing, url);
+
 		mFragmentsList.add(mCurrentTabIndex + 1, fragment);
-		mFragmentsMap.put(fragment.getUUID(), fragment);		
-		
+		mFragmentsMap.put(fragment.getUUID(), fragment);
+
 		if (!openInBackground) {
 			mCurrentTabIndex++;
-			
+
 			if (startPage) {
 				fragment.setStartPageShown(true);
-				
+
 				if (mStartPageFragment == null) {
 					createStartPageFragment();
 				}
-				
+
 				setCurrentFragment(mStartPageFragment, sAnimationType);
 				onShowStartPage();
 			} else {
 				fragment.setStartPageShown(false);
 				setCurrentFragment(fragment, sAnimationType);
-			}			
-			
+			}
+
 			CustomWebView webView = getCurrentWebView();
 
 			if (!webView.isPrivateBrowsingEnabled()) {
@@ -111,21 +111,21 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 			}
 		}
 	}
-	
+
 	@Override
 	public void closeCurrentTab() {
 		if (mFragmentsList.size() > 1) {
 			closeTabByIndex(mCurrentTabIndex);
 		} else {
-			closeLastTab();			
+			closeLastTab();
 		}
 	}
-	
+
 	@Override
 	public void closeTab(UUID tabId) {
 		int index = mFragmentsList.indexOf(getWebViewFragmentByUUID(tabId));
-		
-		if (mFragmentsList.size() > 1) {			
+
+		if (mFragmentsList.size() > 1) {
 			if ((index >= 0) &&
 					(index < mFragmentsList.size())) {
 				closeTabByIndex(index);
@@ -134,26 +134,26 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 			closeLastTab();
 		}
 	}
-	
+
 	protected void closeLastTab() {
 		PhoneWebViewFragment fragment = mFragmentsList.get(mCurrentTabIndex);
-		
+
 		CustomWebView webView = fragment.getWebView();
-		
+
 		if (!webView.isPrivateBrowsingEnabled()) {
 			Controller.getInstance().getAddonManager().onTabClosed(mActivity, webView);
 		}
-		
+
 		webView.onPause();
-		
+
 		loadHomePage();
 		updateUrlBar();
 	}
-	
+
 	protected void closeTabByIndex(int index) {
 		if ((index >= 0) &&
 				(index < mFragmentsList.size())) {
-			boolean currentTab = index == mCurrentTabIndex;		
+			boolean currentTab = index == mCurrentTabIndex;
 
 			PhoneWebViewFragment fragment = mFragmentsList.get(index);
 
@@ -181,63 +181,60 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 			}
 		}
 	}
-	
+
 	protected void showCurrentTab(boolean notifyTabSwitched) {
 		PhoneWebViewFragment newFragment = mFragmentsList.get(mCurrentTabIndex);
-		
+
 		if (newFragment.isStartPageShown()) {
 			setCurrentFragment(mStartPageFragment, sAnimationType);
 			mUrlBar.hideGoStopReloadButton();
 		} else {
 			setCurrentFragment(newFragment, sAnimationType);
 			mUrlBar.showGoStopReloadButton();
-			newFragment.getWebView().onResume();						
+			newFragment.getWebView().onResume();
 		}
-		
+
 		if (notifyTabSwitched) {
 			CustomWebView webView = getCurrentWebView();
-			
+
 			if (!webView.isPrivateBrowsingEnabled()) {
 				Controller.getInstance().getAddonManager().onTabSwitched(mActivity, webView);
 			}
 		}
-		
+
 		updateUrlBar();
 	}
-	
+
 	@Override
 	public void onProgressChanged(WebView view, int newProgress) {
 		if (view == getCurrentWebView()) {
 			mProgressBar.setProgress(newProgress);
 		}
 	}
-	
+
 	@Override
 	public void onReceivedTitle(WebView view, String title) {
 		if (view == getCurrentWebView()) {
 			if ((title != null) &&
 					(!title.isEmpty())) {
-				mUrlBar.setTitle(title);
-				mUrlBar.setSubtitle(view.getUrl());
+				mUrlBar.setSubtitle(title);
 			} else {
-				mUrlBar.setTitle(R.string.ApplicationName);
 				mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 			}
 		}
 	}
-	
+
 	@Override
 	public void onShowStartPage() {
-		mUrlBar.setTitle(mActivity.getString(R.string.ApplicationName));
 		mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 		mUrlBar.setGoStopReloadImage(R.drawable.ic_go);
 		mUrlBar.hideGoStopReloadButton();
-					
+
 		mUrlBar.setUrl(null);
 		mBack.setEnabled(false);
 		mForward.setEnabled(false);
 	}
-	
+
 	@Override
 	public void onHideStartPage() {
 		mUrlBar.showGoStopReloadButton();
@@ -248,7 +245,7 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 		mUrlBar.hideUrl();
 		super.loadUrl(url);
 	}
-	
+
 	@Override
 	public CustomWebView getCurrentWebView() {
 		if (mCurrentTabIndex != -1) {
@@ -257,7 +254,7 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public BaseWebViewFragment getCurrentWebViewFragment() {
 		if (mCurrentTabIndex != -1) {
@@ -266,12 +263,12 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 			return null;
 		}
 	}
-	
+
 	@Override
 	protected BaseWebViewFragment getWebViewFragmentByUUID(UUID fragmentId) {
 		return mFragmentsMap.get(fragmentId);
 	}
-	
+
 	@Override
 	protected String getCurrentUrl() {
 		return mUrlBar.getUrl();
@@ -281,15 +278,15 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 	protected int getTabCount() {
 		return mFragmentsList.size();
 	}
-	
+
 	@Override
 	protected void showStartPage(BaseWebViewFragment webViewFragment) {
 		if ((webViewFragment != null) &&
 				(!webViewFragment.isStartPageShown())) {
-		
+
 			webViewFragment.getWebView().onPause();
 			webViewFragment.setStartPageShown(true);
-			
+
 			if (webViewFragment == getCurrentWebViewFragment()) {
 
 				if (mStartPageFragment == null) {
@@ -297,7 +294,7 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 				}
 
 				setCurrentFragment(mStartPageFragment, sAnimationType);
-				
+
 				onShowStartPage();
 			}
 		}
@@ -307,9 +304,9 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 	protected void hideStartPage(BaseWebViewFragment webViewFragment) {
 		if ((webViewFragment != null) &&
 				(webViewFragment.isStartPageShown())) {
-		
+
 			webViewFragment.setStartPageShown(false);
-			
+
 			if (webViewFragment == getCurrentWebViewFragment()) {
 				setCurrentFragment(webViewFragment, sAnimationType);
 
@@ -322,45 +319,45 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 	protected void resetUI() {
 		updateUrlBar();
 	}
-	
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		for (PhoneWebViewFragment fragment : mFragmentsList) {
 			fragment.getWebView().loadSettings();
 		}
 	}
-	
+
 	@Override
-	protected Collection<BaseWebViewFragment> getTabsFragments() {		
+	protected Collection<BaseWebViewFragment> getTabsFragments() {
 		return new ArrayList<BaseWebViewFragment>(mFragmentsList);
 	}
-	
+
 	protected void setCurrentFragment(Fragment fragment, AnimationType animationType) {
 		if (fragment != mCurrentFragment) {
 			mCurrentFragment = fragment;
-			
-			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();			
-			
+
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
 			switch (animationType) {
 			case NONE: break;
 			case FADE: fragmentTransaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out); break;
 			default: break;
 			}
-			
-			fragmentTransaction.replace(R.id.WebViewContainer, mCurrentFragment);				
+
+			fragmentTransaction.replace(R.id.WebViewContainer, mCurrentFragment);
 			fragmentTransaction.commit();
 		}
 	}
-	
+
 	protected void updateBackForwardEnabled() {
 		CustomWebView currentWebView = getCurrentWebView();
-		
+
 		mBack.setEnabled(currentWebView.canGoBack());
 		mForward.setEnabled(currentWebView.canGoForward());
 	}
-	
+
 	protected abstract void createStartPageFragment();
-	
+
 	protected abstract void updateUrlBar();
 
 }

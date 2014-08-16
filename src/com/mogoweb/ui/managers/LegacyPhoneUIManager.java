@@ -1,6 +1,6 @@
 /*
  * Tint Browser for Android
- * 
+ *
  * Copyright (C) 2012 - to infinity and beyond J. Devauchelle and contributors.
  *
  * This program is free software; you can redistribute it and/or
@@ -51,98 +51,98 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 public class LegacyPhoneUIManager extends BasePhoneUIManager {
-	
+
 	private enum SwitchTabsMethod {
 		BUTTONS,
 		FLING,
 		BOTH
 	}
-	
+
 	private static final int FLIP_PIXEL_THRESHOLD = 200;
-	private static final int FLIP_TIME_THRESHOLD = 400;	
-	
+	private static final int FLIP_TIME_THRESHOLD = 400;
+
 	private ImageView mBubbleLeft;
 	private ImageView mBubbleRight;
-	
+
 	private ImageView mFaviconView;
-	
+
 	private ImageView mBookmarks;
-	
+
 	private ImageView mAddTab;
 	private ImageView mCloseTab;
-	
+
 	private ImageView mShowPreviousTab;
 	private ImageView mShowNextTab;
-	
-	private LinearLayout mBottomBar;	
-	
+
+	private LinearLayout mBottomBar;
+
 	private BitmapDrawable mDefaultFavicon;
-	
+
 	private int mToolbarsDisplayDuration;
-	
+
 	private ToolbarsAnimator mToolbarsAnimator;
-	
+
 	private GestureDetector mGestureDetector;
-	
+
 	private HideToolbarsRunnable mHideToolbarsRunnable = null;
-	
+
 	private SwitchTabsMethod mSwitchTabsMethod = SwitchTabsMethod.BOTH;
 
 	static {
 		sAnimationType = AnimationType.FADE;
 	}
-	
+
 	public LegacyPhoneUIManager(TintBrowserActivity activity) {
 		super(activity);
-		
+
 		updateSwitchTabsMethod();
 	}
-	
+
 	@Override
-	protected void setupUI() {	
+	protected void setupUI() {
 		super.setupUI();
-		
+
 		mActionBar.hide();
-		
+
 		mGestureDetector = new GestureDetector(mActivity, new GestureListener());
-		
-		updateToolbarsDisplayDuration();		
-		
+
+		updateToolbarsDisplayDuration();
+
 		int buttonSize = mActivity.getResources().getInteger(R.integer.application_button_size);
 		Drawable d = mActivity.getResources().getDrawable(R.drawable.ic_launcher);
-		
+
 		Bitmap bm = Bitmap.createBitmap(buttonSize, buttonSize, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bm);
 		d.setBounds(0, 0, buttonSize, buttonSize);
 		d.draw(canvas);
-		
+
 		mDefaultFavicon = new BitmapDrawable(mActivity.getResources(), bm);
-		
+
 		mProgressBar = (ProgressBar) mActivity.findViewById(R.id.WebViewProgress);
-		
+
 		mUrlBar = (PhoneUrlBar) mActivity.findViewById(R.id.UrlBar);
-		
+
 		mUrlBar.setEventListener(new OnPhoneUrlBarEventListener() {
-			
+
 			@Override
 			public void onVisibilityChanged(boolean urlBarVisible) {
 				if (urlBarVisible) {
 					mUrlBar.showGoStopReloadButton();
 				} else {
 					BaseWebViewFragment currentFragment = getCurrentWebViewFragment();
-					
+
 					if ((currentFragment != null) &&
 							(currentFragment.isStartPageShown())){
 						mUrlBar.hideGoStopReloadButton();
 					}
 				}
 			}
-			
+
 			@Override
 			public void onUrlValidated() {
 				loadCurrentUrl();
 			}
-			
+
 			@Override
 			public void onGoStopReloadClicked() {
 				if (mUrlBar.isUrlChangedByUser()) {
@@ -157,19 +157,18 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 
 			@Override
 			public void onMenuVisibilityChanged(boolean isVisible) {
-				mMenuVisible = isVisible;	
-				
+				mMenuVisible = isVisible;
+
 				if (!mMenuVisible) {
 					startHideToolbarsThread();
 				}
 			}
 		});
-        
-        mUrlBar.setTitle(R.string.ApplicationName);
+
         mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
-		
+
         mFaviconView = (ImageView) mActivity.findViewById(R.id.FaviconView);
-        mFaviconView.setOnClickListener(new OnClickListener() {			
+        mFaviconView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mUrlBar.isUrlBarVisible()) {
@@ -180,27 +179,27 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 				}
 			}
 		});
-        
+
         mFaviconView.setImageDrawable(mDefaultFavicon);
-        
+
 		mTopBar = (RelativeLayout) mActivity.findViewById(R.id.TopBar);
 		mTopBar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Steal event from WebView.				
+				// Steal event from WebView.
 			}
 		});
-		
+
 		mBottomBar = (LinearLayout) mActivity.findViewById(R.id.BottomBar);
-        mBottomBar.setOnClickListener(new OnClickListener() {			
+        mBottomBar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Steal event from WebView.				
+				// Steal event from WebView.
 			}
 		});
-        
+
         mBack = (ImageView) mActivity.findViewById(R.id.BtnBack);
-        mBack.setOnClickListener(new OnClickListener() {			
+        mBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if ((!getCurrentWebViewFragment().isStartPageShown()) &&
@@ -210,9 +209,9 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 			}
 		});
         mBack.setEnabled(false);
-        
+
         mForward = (ImageView) mActivity.findViewById(R.id.BtnForward);
-        mForward.setOnClickListener(new OnClickListener() {			
+        mForward.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if ((!getCurrentWebViewFragment().isStartPageShown()) &&
@@ -222,131 +221,131 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 			}
 		});
         mForward.setEnabled(false);
-        
+
         mBookmarks = (ImageView) mActivity.findViewById(R.id.BtnBookmarks);
-        mBookmarks.setOnClickListener(new OnClickListener() {			
+        mBookmarks.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				openBookmarksActivityForResult();
 			}
 		});
-        
+
         mAddTab = (ImageView) mActivity.findViewById(R.id.BtnAddTab);
-        mAddTab.setOnClickListener(new OnClickListener() {			
+        mAddTab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				addTab(true, PreferenceManager.getDefaultSharedPreferences(view.getContext()).
 						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
 			}
 		});
-        
+
         mCloseTab = (ImageView) mActivity.findViewById(R.id.BtnCloseTab);
-        mCloseTab.setOnClickListener(new OnClickListener() {			
+        mCloseTab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				closeCurrentTab();
 			}
 		});
-        
+
         mShowPreviousTab = (ImageView) mActivity.findViewById(R.id.PreviousTabView);
-        mShowPreviousTab.setOnClickListener(new OnClickListener() {			
+        mShowPreviousTab.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {				
+			public void onClick(View v) {
 				showPreviousTab();
 			}
 		});
-        
+
         mShowNextTab = (ImageView) mActivity.findViewById(R.id.NextTabView);
-        mShowNextTab.setOnClickListener(new OnClickListener() {			
+        mShowNextTab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showNextTab();				
+				showNextTab();
 			}
 		});
-        
+
         mBubbleLeft = (ImageView) mActivity.findViewById(R.id.BubbleLeftView);
-        mBubbleLeft.setOnClickListener(new OnClickListener() {			
+        mBubbleLeft.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				setToolbarsVisibility(true);
 				startHideToolbarsThread();
 			}
 		});
-        
+
         mBubbleRight = (ImageView) mActivity.findViewById(R.id.BubbleRightView);
-        mBubbleRight.setOnClickListener(new OnClickListener() {			
+        mBubbleRight.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				setToolbarsVisibility(true);
 				startHideToolbarsThread();
 			}
 		});
-        
+
         updateBubblesVisibility();
-        
-        mToolbarsAnimator = new ToolbarsAnimator(mTopBar, mBottomBar, mShowPreviousTab, mShowNextTab);		
-        
+
+        mToolbarsAnimator = new ToolbarsAnimator(mTopBar, mBottomBar, mShowPreviousTab, mShowNextTab);
+
         startHideToolbarsThread();
 	}
 
 	@Override
 	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
 		super.addTab(url, openInBackground, privateBrowsing);
-		
+
 		updateShowPreviousNextTabButtons();
 		updateUrlBar();
 	}
 
 	@Override
 	protected void showCurrentTab(boolean notifyTabSwitched) {
-		super.showCurrentTab(notifyTabSwitched);		
+		super.showCurrentTab(notifyTabSwitched);
 
 		updateShowPreviousNextTabButtons();
 	}
-	
+
 	@Override
 	public void onPageStarted(WebView view, String url, Bitmap favicon) {
-		if (view == getCurrentWebView()) {			
+		if (view == getCurrentWebView()) {
 			setToolbarsVisibility(true);
 			mProgressBar.setVisibility(View.VISIBLE);
 			mFaviconView.setVisibility(View.INVISIBLE);
-			
+
 			mUrlBar.setUrl(url);
-			
+
 			mUrlBar.setGoStopReloadImage(R.drawable.ic_stop);
-			
+
 			updateBackForwardEnabled();
 		}
 	}
-	
+
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		super.onPageFinished(view, url);
-		
+
 		if (view == getCurrentWebView()) {
 			mFaviconView.setVisibility(View.VISIBLE);
-			mProgressBar.setVisibility(View.INVISIBLE);			
-						
+			mProgressBar.setVisibility(View.INVISIBLE);
+
 			mUrlBar.setUrl(url);
-			
+
 			mUrlBar.setGoStopReloadImage(R.drawable.ic_refresh);
-			
+
 			updateBackForwardEnabled();
 			startHideToolbarsThread();
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyBack() {
 		if (!super.onKeyBack()) {
 			if (mUrlBar.isUrlBarVisible()) {
 				mUrlBar.hideUrl();
 				startHideToolbarsThread();
-				
+
 				return true;
 			} else {
 				CustomWebView currentWebView = getCurrentWebView();
-				
+
 				if ((currentWebView != null) &&
 						(currentWebView.canGoBack())) {
 					currentWebView.goBack();
@@ -358,42 +357,42 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public boolean onKeySearch() {
 		setToolbarsVisibility(true);
 		startHideToolbarsThread();
-		
+
 		if (!mUrlBar.isUrlBarVisible()) {
 			mUrlBar.showUrl();
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public void onMenuVisibilityChanged(boolean isVisible) {
-		mMenuVisible = isVisible;	
-		
+		mMenuVisible = isVisible;
+
 		if (!mMenuVisible) {
 			startHideToolbarsThread();
 		}
 	}
-	
+
 	@Override
 	public void onShowStartPage() {
 		super.onShowStartPage();
-		
+
 		mFaviconView.setImageDrawable(mDefaultFavicon);
 	}
-	
+
 	@Override
 	public void onActionModeStarted(ActionMode mode) {
 		mActionMode = mode;
-		
+
 		if (mToolbarsAnimator.isToolbarsVisible()) {
 			mTopBar.animate().translationY(mTopBar.getHeight());
 		}
@@ -403,60 +402,60 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 	public void onActionModeFinished(ActionMode mode) {
 		if (mActionMode != null) {
 			mActionMode = null;
-			
+
 			if (mToolbarsAnimator.isToolbarsVisible()) {
 				mTopBar.animate().translationY(0);
 			}
-			
+
 			InputMethodManager mgr = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 			mgr.hideSoftInputFromWindow(null, 0);
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) { }
-	
+
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		if ((!getCurrentWebViewFragment().isStartPageShown()) &&
 				(event.getActionMasked() == MotionEvent.ACTION_DOWN)) {
 			setToolbarsVisibility(false);
 		}
-		
+
 		return mGestureDetector.onTouchEvent(event);
 	}
-	
+
 	@Override
 	protected void setFullScreenFromPreferences() {
 		Window win = mActivity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
 		final int bits = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-		
+
 		if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean(Constants.PREFERENCE_FULL_SCREEN, false)) {
 			winParams.flags |=  bits;
 		} else {
 			winParams.flags &= ~bits;
 		}
-		
+
 		win.setAttributes(winParams);
 	}
-	
+
 	@Override
 	protected void updateUrlBar() {
 		CustomWebView currentWebView;
 		BaseWebViewFragment currentFragment = getCurrentWebViewFragment();
-		
+
 		if ((currentFragment != null) &&
 				(currentFragment.isStartPageShown())) {
 			currentWebView = null;
-			
+
 			if (!mToolbarsAnimator.isToolbarsVisible()) {
 				setToolbarsVisibility(true);
 			}
 		} else {
 			currentWebView = getCurrentWebView();
 		}
-		
+
 		if (currentWebView != null) {
 			String title = currentWebView.getTitle();
 			String url = currentWebView.getUrl();
@@ -464,22 +463,22 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 
 			if ((title != null) &&
 					(!title.isEmpty())) {
-				mUrlBar.setTitle(title);
+				mUrlBar.setSubtitle(title);
 			} else {
-				mUrlBar.setTitle(R.string.ApplicationName);
+				mUrlBar.setSubtitle(R.string.ApplicationName);
 			}
 
 			if ((url != null) &&
-					(!url.isEmpty())) {				
+					(!url.isEmpty())) {
 				mUrlBar.setSubtitle(url);
 				mUrlBar.setUrl(url);
 			} else {
 				mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 				mUrlBar.setUrl(null);
 			}
-			
+
 			setApplicationButtonImage(icon);
-			
+
 			if (currentWebView.isLoading()) {
 				mProgressBar.setVisibility(View.VISIBLE);
 				mFaviconView.setVisibility(View.INVISIBLE);
@@ -489,60 +488,59 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 				mProgressBar.setVisibility(View.INVISIBLE);
 				mUrlBar.setGoStopReloadImage(R.drawable.ic_refresh);
 			}
-			
+
 			updateBackForwardEnabled();
 		} else {
-			mUrlBar.setTitle(R.string.ApplicationName);
 			mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 			mFaviconView.setImageDrawable(mDefaultFavicon);
-			
+
 			mFaviconView.setVisibility(View.VISIBLE);
 			mProgressBar.setVisibility(View.INVISIBLE);
-						
+
 			mUrlBar.setUrl(null);
 			mBack.setEnabled(false);
 			mForward.setEnabled(false);
 		}
-		
+
 		mUrlBar.setPrivateBrowsingIndicator(currentFragment != null ? currentFragment.isPrivateBrowsingEnabled() : false);
 	}
-	
+
 	@Override
 	protected void createStartPageFragment() {
 		mStartPageFragment = new LegacyPhoneStartPageFragment();
-		mStartPageFragment.setOnStartPageItemClickedListener(new OnStartPageItemClickedListener() {					
+		mStartPageFragment.setOnStartPageItemClickedListener(new OnStartPageItemClickedListener() {
 			@Override
 			public void onStartPageItemClicked(String url) {
 				loadUrl(url);
 			}
 		});
 	}
-	
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		super.onSharedPreferenceChanged(sharedPreferences, key);
-		
+
 		if (Constants.PREFERENCE_BUBBLE_POSITION.equals(key)) {
 			updateBubblesVisibility();
 		} else if (Constants.PREFERENCE_TOOLBARS_AUTOHIDE_DURATION.equals(key)) {
 			updateToolbarsDisplayDuration();
 		} else if (Constants.PREFERENCES_SWITCH_TABS_METHOD.equals(key)) {
-			updateSwitchTabsMethod();			
+			updateSwitchTabsMethod();
 			updateShowPreviousNextTabButtons();
 		}
 	}
-	
+
 	@Override
 	protected void setApplicationButtonImage(Bitmap icon) {
 		BitmapDrawable image = ApplicationUtils.getApplicationButtonImage(mActivity, icon);
-		
-		if (image != null) {			
+
+		if (image != null) {
 			mFaviconView.setImageDrawable(image);
 		} else {
 			mFaviconView.setImageDrawable(mDefaultFavicon);
 		}
 	}
-	
+
 	public void hideToolbars() {
     	if ((!mUrlBar.isUrlBarVisible()) &&
     			(!getCurrentWebViewFragment().isStartPageShown()) &&
@@ -550,10 +548,10 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
     			(!getCurrentWebView().isLoading())) {
     		setToolbarsVisibility(false);
     	}
-    	
+
     	mHideToolbarsRunnable = null;
     }
-	
+
 	private void updateShowPreviousNextTabButtons() {
 		if (isSwitchTabsByButtonsEnabled()) {
 			if (mCurrentTabIndex == 0) {
@@ -573,36 +571,36 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 			mShowPreviousTab.setVisibility(View.GONE);
 			mShowNextTab.setVisibility(View.GONE);
 		}
-	}	
-	
+	}
+
 	private void showPreviousTab() {
 		if (mCurrentTabIndex > 0) {
 			mUrlBar.hideUrl();
-			
+
 			PhoneWebViewFragment oldFragment = mFragmentsList.get(mCurrentTabIndex);
 			oldFragment.getWebView().onPause();
-			
+
 			mCurrentTabIndex--;
-			
+
 			showCurrentTab(true);
 			startHideToolbarsThread();
 		}
 	}
-	
+
 	private void showNextTab() {
 		if (mCurrentTabIndex < mFragmentsList.size() - 1) {
 			mUrlBar.hideUrl();
-			
+
 			PhoneWebViewFragment oldFragment = mFragmentsList.get(mCurrentTabIndex);
 			oldFragment.getWebView().onPause();
-			
+
 			mCurrentTabIndex++;
-			
+
 			showCurrentTab(true);
 			startHideToolbarsThread();
 		}
 	}
-	
+
 	/**
      * Change the tool bars visibility.
      * @param setVisible If True, the tool bars will be shown.
@@ -613,7 +611,7 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 				mUrlBar.hideUrl();
 
 				boolean showTabsButtons = isSwitchTabsByButtonsEnabled();
-				
+
 				mToolbarsAnimator.startShowAnimation(
 						showTabsButtons && mCurrentTabIndex > 0,
 						showTabsButtons && mCurrentTabIndex < mFragmentsList.size() - 1);
@@ -623,26 +621,26 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 				if (mHideToolbarsRunnable != null) {
 					mHideToolbarsRunnable.disable();
 				}
-				
+
 				mUrlBar.hideUrl(mActionMode == null);
-				
+
 				mToolbarsAnimator.startHideAnimation();
 			}
 		}
     }
-	
+
 	private void startHideToolbarsThread() {
     	if (mHideToolbarsRunnable != null) {
     		mHideToolbarsRunnable.disable();
     	}
-    	
-    	mHideToolbarsRunnable = new HideToolbarsRunnable(this, mToolbarsDisplayDuration * 1000);    	
+
+    	mHideToolbarsRunnable = new HideToolbarsRunnable(this, mToolbarsDisplayDuration * 1000);
     	new Thread(mHideToolbarsRunnable).start();
     }
-	
+
 	private void updateBubblesVisibility() {
 		String position = PreferenceManager.getDefaultSharedPreferences(mActivity).getString(Constants.PREFERENCE_BUBBLE_POSITION, "RIGHT");
-		
+
 		if ("RIGHT".equals(position)) {
 			mBubbleLeft.setVisibility(View.INVISIBLE);
 			mBubbleRight.setVisibility(View.VISIBLE);
@@ -654,24 +652,24 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 			mBubbleRight.setVisibility(View.VISIBLE);
 		}
 	}
-	
+
 	private void updateToolbarsDisplayDuration() {
 		String duration = PreferenceManager.getDefaultSharedPreferences(mActivity).getString(Constants.PREFERENCE_TOOLBARS_AUTOHIDE_DURATION, "3");
-		
+
 		try {
 			mToolbarsDisplayDuration = Integer.parseInt(duration);
 		} catch (NumberFormatException e) {
 			mToolbarsDisplayDuration = 3;
 		}
-		
+
 		if (mToolbarsDisplayDuration <= 0) {
 			mToolbarsDisplayDuration = 3;
 		}
 	}
-	
+
 	private void updateSwitchTabsMethod() {
     	String method = PreferenceManager.getDefaultSharedPreferences(mActivity).getString(Constants.PREFERENCES_SWITCH_TABS_METHOD, "BUTTONS");
-    	
+
     	if (method.equals("BUTTONS")) {
     		mSwitchTabsMethod = SwitchTabsMethod.BUTTONS;
     	} else if (method.equals("FLING")) {
@@ -682,39 +680,39 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
     		mSwitchTabsMethod = SwitchTabsMethod.BUTTONS;
     	}
     }
-	
+
 	private boolean isSwitchTabsByFlingEnabled() {
 		return (mSwitchTabsMethod == SwitchTabsMethod.FLING) || (mSwitchTabsMethod == SwitchTabsMethod.BOTH);
 	}
-	
+
 	private boolean isSwitchTabsByButtonsEnabled() {
 		return (mSwitchTabsMethod == SwitchTabsMethod.BUTTONS) || (mSwitchTabsMethod == SwitchTabsMethod.BOTH);
 	}
-	
+
 	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,	float velocityY) {
 			if (isSwitchTabsByFlingEnabled()) {
 				if (e2.getEventTime() - e1.getEventTime() <= FLIP_TIME_THRESHOLD) {
-					if (e2.getX() > (e1.getX() + FLIP_PIXEL_THRESHOLD)) {						
+					if (e2.getX() > (e1.getX() + FLIP_PIXEL_THRESHOLD)) {
 
 						showPreviousTab();
 						return false;
 					}
 
 					// going forwards: pushing stuff to the left
-					if (e2.getX() < (e1.getX() - FLIP_PIXEL_THRESHOLD)) {					
+					if (e2.getX() < (e1.getX() - FLIP_PIXEL_THRESHOLD)) {
 
 						showNextTab();
 						return false;
 					}
 				}
 			}
-			
+
 			return super.onFling(e1, e2, velocityX, velocityY);
 		}
-		
+
 	}
 
 }

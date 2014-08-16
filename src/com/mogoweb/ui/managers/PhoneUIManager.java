@@ -182,7 +182,6 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			}
 		});
 
-        mUrlBar.setTitle(R.string.ApplicationName);
         mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 
         mFaviconView = (BadgedImageView) mActivity.findViewById(R.id.FaviconView);
@@ -491,9 +490,9 @@ public class PhoneUIManager extends BasePhoneUIManager {
 
 			if ((title != null) &&
 					(!title.isEmpty())) {
-				mUrlBar.setTitle(title);
+				mUrlBar.setSubtitle(title);
 			} else {
-				mUrlBar.setTitle(R.string.ApplicationName);
+				mUrlBar.setSubtitle(R.string.ApplicationName);
 			}
 
 			if ((url != null) &&
@@ -518,7 +517,6 @@ public class PhoneUIManager extends BasePhoneUIManager {
 
 			updateBackForwardEnabled();
 		} else {
-			mUrlBar.setTitle(R.string.ApplicationName);
 			mUrlBar.setSubtitle(R.string.UrlBarUrlDefaultSubTitle);
 
 			mProgressBar.setVisibility(View.GONE);
