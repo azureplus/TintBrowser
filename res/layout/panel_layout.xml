@@ -149,7 +149,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_margin="0dip"
-            android:background="@drawable/ab_solid_dark_holo"
+            android:background="@drawable/toolbar_normal"
             android:orientation="horizontal"
             android:padding="0dip"
             android:scaleType="fitXY" >
