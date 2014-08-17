@@ -167,6 +167,7 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 
 			mFragmentsList.remove(index);
 			mFragmentsMap.remove(fragment.getUUID());
+			webView.destroy();
 
 			if (currentTab) {
 				if (mCurrentTabIndex > 0) {

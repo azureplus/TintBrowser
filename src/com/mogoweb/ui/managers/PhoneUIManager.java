@@ -395,7 +395,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 					return true;
 				} else if (isHomePageStartPage() &&
 						!isStartPageShownOnCurrentTab()) {
-					loadHomePage();
+					closeCurrentTab();
 					return true;
 				}
 			}
