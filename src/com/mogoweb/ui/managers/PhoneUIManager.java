@@ -110,7 +110,7 @@ public class PhoneUIManager extends BasePhoneUIManager {
 			@Override
 			public void onClick(View v) {
 				addTab(true, PreferenceManager.getDefaultSharedPreferences(v.getContext()).
-						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
+						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false), false);
 
 				if (mPreferences.getBoolean(Constants.PREFERENCE_CLOSE_PANEL_ON_NEW_TAB, true)) {
 					mPanel.hidePanel();
@@ -257,8 +257,8 @@ public class PhoneUIManager extends BasePhoneUIManager {
 	}
 
 	@Override
-	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
-		super.addTab(url, openInBackground, privateBrowsing);
+	public void addTab(String url, boolean openInBackground, boolean privateBrowsing, boolean openByParent) {
+		super.addTab(url, openInBackground, privateBrowsing, openByParent);
 
 		updateUrlBar();
 		mAdapter.notifyDataSetChanged();
@@ -394,8 +394,11 @@ public class PhoneUIManager extends BasePhoneUIManager {
 					currentWebView.goBack();
 					return true;
 				} else if (isHomePageStartPage() &&
-						!isStartPageShownOnCurrentTab()) {
+						!isStartPageShownOnCurrentTab() && isOpenByParentTab()) {
 					closeCurrentTab();
+					return true;
+				} else if (isHomePageStartPage() && !isStartPageShownOnCurrentTab()) {
+					loadHomePage();
 					return true;
 				}
 			}
@@ -629,4 +632,8 @@ public class PhoneUIManager extends BasePhoneUIManager {
 
 	}
 
+	protected boolean isOpenByParentTab() {
+		BaseWebViewFragment currentWebViewFragment = getCurrentWebViewFragment();
+		return currentWebViewFragment != null && currentWebViewFragment.isSubView();
+	}
 }

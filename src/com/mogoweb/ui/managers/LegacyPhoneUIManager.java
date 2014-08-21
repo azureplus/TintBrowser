@@ -235,7 +235,7 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 			@Override
 			public void onClick(View view) {
 				addTab(true, PreferenceManager.getDefaultSharedPreferences(view.getContext()).
-						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
+						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false), false);
 			}
 		});
 
@@ -289,8 +289,8 @@ public class LegacyPhoneUIManager extends BasePhoneUIManager {
 	}
 
 	@Override
-	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
-		super.addTab(url, openInBackground, privateBrowsing);
+	public void addTab(String url, boolean openInBackground, boolean privateBrowsing, boolean openByParent) {
+		super.addTab(url, openInBackground, privateBrowsing, openByParent);
 
 		updateShowPreviousNextTabButtons();
 		updateUrlBar();

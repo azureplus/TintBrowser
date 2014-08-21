@@ -87,7 +87,7 @@ public class CustomWebChromeClient extends WebChromeClient {
 
 		CustomWebView curentWebView = mUIManager.getCurrentWebView();
 
-		mUIManager.addTab(false, curentWebView.isPrivateBrowsingEnabled());
+		mUIManager.addTab(false, curentWebView.isPrivateBrowsingEnabled(), true);
 
 		transport.setWebView(mUIManager.getCurrentWebView());
 		resultMsg.sendToTarget();

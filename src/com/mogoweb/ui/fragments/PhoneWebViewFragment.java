@@ -24,8 +24,9 @@ import android.view.ViewGroup;
 
 public class PhoneWebViewFragment extends BaseWebViewFragment {
 	
-	public PhoneWebViewFragment() {	
+	public PhoneWebViewFragment(boolean openByParent) {	
 		super();
+		mIsSubView = true;
 	}
 	
 	@Override

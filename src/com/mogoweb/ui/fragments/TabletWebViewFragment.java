@@ -27,7 +27,7 @@ public class TabletWebViewFragment extends PhoneWebViewFragment {
 	private Tab mTab;
 	
 	public TabletWebViewFragment() {	
-		super();
+		super(false);
 	}
 	
 	public void init(UIManager uiManager, Tab tab, boolean privateBrowsing, String urlToLoad) {

@@ -139,14 +139,15 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 	}
 
 	@Override
-	public void addTab(boolean loadHomePage, boolean privateBrowsing) {
+	public void addTab(boolean loadHomePage, boolean privateBrowsing, boolean openByParent) {
 		if (loadHomePage) {
 			addTab(
 					PreferenceManager.getDefaultSharedPreferences(mActivity).getString(Constants.PREFERENCE_HOME_PAGE, Constants.URL_ABOUT_START),
 					false,
-					privateBrowsing);
+					privateBrowsing,
+					openByParent);
 		} else {
-			addTab(null, false, privateBrowsing);
+			addTab(null, false, privateBrowsing, openByParent);
 		}
 	}
 
@@ -298,7 +299,8 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 						addTab(url,
 								false,
 								PreferenceManager.getDefaultSharedPreferences(this.getMainActivity()).
-									getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
+									getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false),
+								false);
 					} else {
 						loadUrl(url);
 					}
@@ -307,7 +309,7 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 					// else do nothing.
 					if (getTabCount() <= 0) {
 						addTab(true, PreferenceManager.getDefaultSharedPreferences(this.getMainActivity()).
-								getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
+								getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false), false);
 					}
 				}
 			} else if (Constants.ACTION_BROWSER_CONTEXT_MENU.equals(intent.getAction())) {
@@ -328,7 +330,7 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 						if (HitTestResult.SRC_IMAGE_ANCHOR_TYPE == intent.getIntExtra(Constants.EXTRA_HIT_TEST_RESULT, -1)) {
 							requestHrefNode(TintBrowserActivity.CONTEXT_MENU_OPEN_IN_NEW_TAB, intent.getBooleanExtra(Constants.EXTRA_INCOGNITO, false));
 						} else {
-							addTab(intent.getStringExtra(Constants.EXTRA_URL), false, intent.getBooleanExtra(Constants.EXTRA_INCOGNITO, false));
+							addTab(intent.getStringExtra(Constants.EXTRA_URL), false, intent.getBooleanExtra(Constants.EXTRA_INCOGNITO, false), false);
 						}
 						break;
 
@@ -337,7 +339,7 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 						if (HitTestResult.SRC_IMAGE_ANCHOR_TYPE == intent.getIntExtra(Constants.EXTRA_HIT_TEST_RESULT, -1)) {
 							requestHrefNode(TintBrowserActivity.CONTEXT_MENU_OPEN_IN_BACKGROUND, intent.getBooleanExtra(Constants.EXTRA_INCOGNITO, false));
 						} else {
-							addTab(intent.getStringExtra(Constants.EXTRA_URL), true, intent.getBooleanExtra(Constants.EXTRA_INCOGNITO, false));
+							addTab(intent.getStringExtra(Constants.EXTRA_URL), true, intent.getBooleanExtra(Constants.EXTRA_INCOGNITO, false), false);
 						}
 						break;
 
@@ -388,7 +390,7 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 				}
 			}
 		} else {
-			addTab(true, false);
+			addTab(true, false, false);
 		}
 	}
 
@@ -605,11 +607,11 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
                     	break;
 
 					case TintBrowserActivity.CONTEXT_MENU_OPEN_IN_NEW_TAB:
-						addTab(url, false, msg.arg2 > 0 ? true : false);
+						addTab(url, false, msg.arg2 > 0 ? true : false, false);
 						break;
 
 					case TintBrowserActivity.CONTEXT_MENU_OPEN_IN_BACKGROUND:
-						addTab(url, true, msg.arg2 > 0 ? true : false);
+						addTab(url, true, msg.arg2 > 0 ? true : false, false);
 						break;
 
 					case TintBrowserActivity.CONTEXT_MENU_COPY:

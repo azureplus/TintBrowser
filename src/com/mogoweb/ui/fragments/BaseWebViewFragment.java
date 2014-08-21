@@ -37,6 +37,7 @@ public abstract class BaseWebViewFragment extends Fragment {
 	protected CustomWebView mWebView;
 	
 	protected boolean mPrivateBrowsing;
+	protected boolean mIsSubView;
 	
 	private boolean mIsStartPageShown;
 	private boolean mWebViewAddedToParent;
@@ -46,6 +47,7 @@ public abstract class BaseWebViewFragment extends Fragment {
 	protected BaseWebViewFragment() {
 		mUUID = UUID.randomUUID();
 		mPrivateBrowsing = false;
+		mIsSubView = false;
 		mIsStartPageShown = false;
 	}
 	
@@ -94,6 +96,14 @@ public abstract class BaseWebViewFragment extends Fragment {
 	
 	public void setPrivateBrowsing(boolean privateBrowsing) {
 		mPrivateBrowsing = privateBrowsing;
+	}
+	
+	public boolean isSubView() {
+		return mIsSubView;
+	}
+	
+	public void setIsSubView(boolean isSubView) {
+		mIsSubView = isSubView;
 	}
 	
 	public boolean isWebViewOnUrl(String url) {

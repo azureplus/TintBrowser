@@ -74,14 +74,14 @@ public abstract class BasePhoneUIManager extends BaseUIManager {
 	}
 
 	@Override
-	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
+	public void addTab(String url, boolean openInBackground, boolean privateBrowsing, boolean openByParent) {
 		boolean startPage = false;
 		if (Constants.URL_ABOUT_START.equals(url)) {
 			url = null;
 			startPage = true;
 		}
 
-		PhoneWebViewFragment fragment = new PhoneWebViewFragment();
+		PhoneWebViewFragment fragment = new PhoneWebViewFragment(openByParent);
 		fragment.init(this, privateBrowsing, url);
 
 		mFragmentsList.add(mCurrentTabIndex + 1, fragment);

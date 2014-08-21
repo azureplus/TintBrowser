@@ -181,7 +181,7 @@ public class TabletUIManager extends BaseUIManager {
 	}
 
 	@Override
-	public void addTab(String url, boolean openInBackground, boolean privateBrowsing) {
+	public void addTab(String url, boolean openInBackground, boolean privateBrowsing, boolean openByParent) {
 		Tab tab = mActionBar.newTab();
 		tab.setText(R.string.NewTab);
 		

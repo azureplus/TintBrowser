@@ -249,7 +249,7 @@ public class TintBrowserActivity extends Activity {
 				mUIManager.loadUrl(url);
 				first = false;
 			} else {
-				mUIManager.addTab(url, !first, false);
+				mUIManager.addTab(url, !first, false, false);
 			}
 		}
     }
@@ -298,7 +298,7 @@ public class TintBrowserActivity extends Activity {
 	    switch (item.getItemId()) { 
 	        case R.id.MainActivity_MenuAddTab:
 	        	mUIManager.addTab(true, PreferenceManager.getDefaultSharedPreferences(this).
-	        			getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
+	        			getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false), false);
 	        	return true;
 	        	
 	        case R.id.MainActivity_MenuCloseTab:
@@ -357,7 +357,7 @@ public class TintBrowserActivity extends Activity {
             		if (b != null) {
             			if (b.getBoolean(Constants.EXTRA_NEW_TAB)) {
             				mUIManager.addTab(false, PreferenceManager.getDefaultSharedPreferences(this).
-            						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false));
+            						getBoolean(Constants.PREFERENCE_INCOGNITO_BY_DEFAULT, false), false);
             			}
             			
             			mUIManager.loadUrl(b.getString(Constants.EXTRA_URL));
