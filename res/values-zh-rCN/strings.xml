@@ -48,6 +48,8 @@
 	<string name="DownloadErrorHttp">网络错误</string>
 	<string name="DownloadErrorRedirection">重定向错误</string>
 	<string name="DownloadErrorUnknown">未知错误</string>
+    <string name="DownloadErrorNotSupportedScheme">无法下载: 只支持http或https的网址</string>
+    <string name="DownloadErrorInvalidUrl">无法下载: 无效的网址</string>
 
 	<string name="ContextMenuOpen">打开</string>
 	<string name="ContextMenuOpenNewTab">在新标签中打开</string>
@@ -555,9 +557,9 @@
 
     <!-- 1.8 -->
     <string name="PreferenceDevelopersTitle">开发者选项</string>
-    
+
     <string name="PreferenceJsLogOnLocatTitle">输出JS日志至logcat</string>
     <string name="PreferenceJsLogOnLocatSummary">重定向javascript日志至logcat缓冲区.</string>
-    
+
     <string name="ContextMenuViewImageInNewTab">在新的标签页中查看图片</string>
 </resources>

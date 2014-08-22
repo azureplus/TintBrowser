@@ -355,14 +355,20 @@ public abstract class BaseUIManager implements UIManager {//, WebViewFragmentLis
 						if (HitTestResult.SRC_IMAGE_ANCHOR_TYPE == intent.getIntExtra(Constants.EXTRA_HIT_TEST_RESULT, -1)) {
 							requestHrefNode(TintBrowserActivity.CONTEXT_MENU_DOWNLOAD);
 						} else {
-							DownloadItem item = new DownloadItem(intent.getStringExtra(Constants.EXTRA_URL));
+							try {
+							    DownloadItem item = new DownloadItem(intent.getStringExtra(Constants.EXTRA_URL));
 
-							long id = ((DownloadManager) mActivity.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(item);
-							item.setId(id);
+							    long id = ((DownloadManager) mActivity.getSystemService(Context.DOWNLOAD_SERVICE)).enqueue(item);
+							    item.setId(id);
 
-							Controller.getInstance().getDownloadsList().add(item);
+							    Controller.getInstance().getDownloadsList().add(item);
 
-							Toast.makeText(mActivity, String.format(mActivity.getString(R.string.DownloadStart), item.getFileName()), Toast.LENGTH_SHORT).show();
+							    Toast.makeText(mActivity, String.format(mActivity.getString(R.string.DownloadStart), item.getFileName()), Toast.LENGTH_SHORT).show();
+							} catch (IllegalArgumentException e) {
+							    Toast.makeText(mActivity, mActivity.getString(R.string.DownloadErrorNotSupportedScheme), Toast.LENGTH_SHORT).show();
+							} catch (NullPointerException e) {
+							    Toast.makeText(mActivity, mActivity.getString(R.string.DownloadErrorInvalidUrl), Toast.LENGTH_SHORT).show();
+							}
 						}
 						break;
 
