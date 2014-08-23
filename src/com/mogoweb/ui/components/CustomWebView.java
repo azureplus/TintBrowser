@@ -117,16 +117,7 @@ public class CustomWebView extends WebView implements DownloadListener, Download
     			url = UrlUtils.getSearchUrl(mContext, url);
     		}
 
-			if (Constants.URL_ABOUT_TUTORIAL.equals(url)) {
-				loadDataWithBaseURL(
-						"file:///android_asset/",
-						ApplicationUtils.getStringFromRawResource(mContext, R.raw.phone_tutorial_html),
-						"text/html",
-						"UTF-8",
-						Constants.URL_ABOUT_TUTORIAL);
-			} else {
-				super.loadUrl(url);
-			}
+			super.loadUrl(url);
 		}
 	}
 

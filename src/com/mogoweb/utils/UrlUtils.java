@@ -1,6 +1,6 @@
 /*
  * Tint Browser for Android
- * 
+ *
  * Copyright (C) 2012 - to infinity and beyond J. Devauchelle and contributors.
  *
  * This program is free software; you can redistribute it and/or
@@ -33,26 +33,25 @@ public class UrlUtils {
 	 * @return True if the string is an url.
 	 */
 	public static boolean isUrl(String url) {
-		return 
+		return
 			url.contains(".") ||
 			url.equals(Constants.URL_ABOUT_BLANK) ||
-			url.equals(Constants.URL_ABOUT_START) ||
-			url.equals(Constants.URL_ABOUT_TUTORIAL);
+			url.equals(Constants.URL_ABOUT_START);
 	}
-	
+
 	public static String getRawSearchUrl(Context context) {
 		String currentSearchUrl = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREFERENCE_SEARCH_URL, context.getString(R.string.SearchUrlGoogle));
 		if (currentSearchUrl.contains("%s")) {
 			currentSearchUrl = currentSearchUrl.replaceAll("%s", "{searchTerms}");
-			
+
 			Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 			editor.putString(Constants.PREFERENCE_SEARCH_URL, currentSearchUrl);
 			editor.commit();
 		}
-		
+
 		return currentSearchUrl;
 	}
-	
+
 	/**
 	 * Get the current search url.
 	 * @param context The current context.
@@ -63,7 +62,7 @@ public class UrlUtils {
 		String currentSearchUrl = getRawSearchUrl(context);
 		return currentSearchUrl.replaceAll("\\{searchTerms\\}", searchTerms);
 	}
-	
+
 	/**
 	 * Check en url. Add http:// before if missing.
 	 * @param url The url to check.
@@ -72,20 +71,19 @@ public class UrlUtils {
 	public static String checkUrl(String url) {
 		if ((url != null) &&
     			(url.length() > 0)) {
-    	
+
     		if ((!url.startsWith("http://")) &&
     				(!url.startsWith("https://")) &&
     				(!url.startsWith("file://")) &&
     				(!url.startsWith(Constants.URL_ABOUT_BLANK)) &&
-    				(!url.startsWith(Constants.URL_ABOUT_START)) &&
-    				(!url.startsWith(Constants.URL_ABOUT_TUTORIAL))) {
-    			
+    				(!url.startsWith(Constants.URL_ABOUT_START))) {
+
     			url = "http://" + url;
-    			
+
     		}
 		}
-		
+
 		return url;
-	}		
-	
+	}
+
 }
